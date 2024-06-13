@@ -15,17 +15,28 @@ export default function Home() {
   const [current, setCurrent] = useState("hiragana");
   const [hiraganaList, setHiraganaList] = useState<string[]>(hiragana);
   const [katakanaList, setKatakanaList] = useState<string[]>(katakana);
-  const [list, setList] = useState<string[]>(hiragana);
+  const [list, setList] = useState<string[]>(hiraganaList);
   const [index, setIndex] = useState<number>(0);
+  
+
+  const attributionList = (current: string) => {
+    if (current === "hiragana") {
+      setList(Array.from(hiraganaList));
+    }
+    else if (current === "katakana") {
+      setList(Array.from(katakanaList));
+    }
+  };
 
   const onClick = (e: any) => {
     setCurrent(e.key);
-    setList(current === "hiragana" ? hiraganaList : katakanaList);
+    attributionList(current);
   };
 
   const onRegen = () => {
     setHiraganaList(hiragana);
     setKatakanaList(katakana);
+    attributionList(current);
   };
 
   return (
@@ -61,7 +72,13 @@ export default function Home() {
           </Button>
         </div>
       </main>
-      <Card title={current}>{list}</Card>
+      <Card title={current} className="text-wrap">
+        <div className=" grid grid-cols-10 gap-2">
+          {list.map((item, index) => (
+            <p key={index}>{item},</p>
+          ))}
+        </div>
+      </Card>
     </div>
   );
 }
