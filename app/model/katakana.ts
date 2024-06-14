@@ -107,5 +107,5 @@ export const katakana: string[] = [
   "byo",
   "pya",
   "pyu",
-  "pyo",
+  "pyo"
 ];

@@ -107,5 +107,5 @@ export const hiragana: string[] = [
   "byo",
   "pya",
   "pyu",
-  "pyo",
+  "pyo"
 ];

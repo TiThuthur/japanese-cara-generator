@@ -21,16 +21,31 @@ export default function Home() {
 
   const attributionList = (current: string) => {
     if (current === "hiragana") {
-      setList(Array.from(hiraganaList));
-    }
-    else if (current === "katakana") {
-      setList(Array.from(katakanaList));
+      console.log("hiragana")
+      setList(hiragana);
+    }else if (current === "katakana") {
+      console.log("katakana")
+      setList(katakana);
     }
   };
 
-  const onClick = (e: any) => {
+  const newIndex = () => {
+    setIndex(Math.floor(Math.random() * list.length));
+  }
+  
+  const sliceList = ()=>{
+    setList(list.slice(0, index).concat(list.slice(index+1)));
+    console.log(list);
+  }
+
+  const onClickWithSlice = (e: any) => {
+    newIndex()
+    sliceList()
+  };
+  const onClickNoSlice = (e: any) => {
     setCurrent(e.key);
-    attributionList(current);
+    attributionList(e.key);
+    newIndex()
   };
 
   const onRegen = () => {
@@ -43,27 +58,23 @@ export default function Home() {
     <div className="flex items-center justify-around p-12">
       <main className="flex min-h-screen flex-col items-center justify-around p-12">
         <Menu
-          onClick={onClick}
+          onClick={onClickNoSlice}
           selectedKeys={[current]}
           mode="horizontal"
           items={items}
-          theme="dark"
+          theme="light"
+          className="rounded"
         />
 
         <Card
           title={current}
-          className=" size-60 rounded-lg border border-slate-400 bg-slate-200 p-2 text-center text-7xl text-slate-900"
-        >
+          className={"size-60 rounded-lg border border-slate-400 bg-slate-200 p-2 text-center text-7xl " + (index % 2 ===0 ? "text-red-700":"text-emerald-700")}>
           {list[index]}
         </Card>
         <div className="flex items-center justify-center gap-4">
           <Button
             size="large"
-            onClick={() => {
-              setIndex(Math.floor(Math.random() * list.length));
-              list.splice(index, 1);
-              console.log(list);
-            }}
+            onClick={onClickWithSlice}
           >
             Next
           </Button>
@@ -75,7 +86,7 @@ export default function Home() {
       <Card title={current} className="text-wrap">
         <div className=" grid grid-cols-10 gap-2">
           {list.map((item, index) => (
-            <p key={index}>{item},</p>
+            <p key={index} className={index % 2===0 ? "text-red-700":"text-emerald-700"}>{item},</p>
           ))}
         </div>
       </Card>
